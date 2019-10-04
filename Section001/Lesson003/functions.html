@@ -1,0 +1,32 @@
+<html>
+<body>
+    <script>
+        let add = function (a, b) {
+            return a + b;
+        }
+        console.log(add(10, 5));
+
+        let sub = (a, b) => a - b;
+        console.log(sub(14, 6));
+
+        let square = a => a * a;
+        console.log(square(5));
+
+        let arr = [1, 2, 3, 4, 5];
+        arr.forEach(item => console.log(item));
+
+        let power = function(x, y) {
+            let res = 1;
+            for (let i = 0; i < y; ++i) {
+                res *= x;
+            }
+            return res;
+        }
+        console.log(power(5,0));
+        console.log(power(5,1));
+        console.log(power(5,2));
+        console.log(power(5,3));
+        console.log(power(5,4));
+    </script>
+</body>
+</html>
