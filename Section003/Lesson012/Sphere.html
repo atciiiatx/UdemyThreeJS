@@ -1,0 +1,58 @@
+
+<html>
+    <head>
+        <title>Sphere</title>
+        <link rel = "stylesheet" href = "../../three.js-master/test/benchmark/style.css">
+        <script src = "../../three.js-master/build/three.min.js"></script>     
+    </head>
+    <body>
+    </body> 
+</html>
+
+<script>    
+    let scene, camera, renderer, sphere;
+    let angInc = 0.2;
+    
+    let createSphere = function() {
+        let geometry = new THREE.SphereGeometry(2, 32, 32, 0, Math.PI, Math.PI/2);
+        let material = new THREE.MeshBasicMaterial({color: 0x00a1cb, wireframe: true});
+        sphere = new THREE.Mesh( geometry, material );
+        scene.add(sphere);
+    };
+    
+    
+    // set up the environment - 
+    // initiallize scene, camera, objects and renderer
+    let init = function() {
+        // create the scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xaabbcc);
+        
+        // create and locate the camera
+        camera = new THREE.PerspectiveCamera(75, 
+                        window.innerWidth / window.innerHeight, 
+                        1, 1000);
+        camera.position.z = 5;
+        
+        createSphere();
+        
+        // create the renderer   
+        renderer = new THREE.WebGLRenderer();   
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        document.body.appendChild(renderer.domElement);
+        
+    };
+   
+    
+    // main animation loop - calls every 50-60 ms.
+    let mainLoop = function() {
+        sphere.rotation.y += angInc;
+        renderer.render(scene, camera);
+        requestAnimationFrame(mainLoop);
+    };
+    
+    ///////////////////////////////////////////////
+    init();
+    mainLoop();
+</script>
