@@ -1,0 +1,61 @@
+
+<html>
+    <head>
+        <title>Rotate Cube</title>
+        <link rel = "stylesheet" href = "../../three.js-master/test/benchmark/style.css">
+        <script src = "../../three.js-master/build/three.min.js"></script>     
+    </head>
+    <body>
+    </body> 
+</html>
+
+<script>    
+    let scene, camera, renderer, cube;
+    let angInc = 0.1;
+    
+    let createCube = function() {
+        let geometry = new THREE.BoxGeometry(1, 1, 1);
+        let material = new THREE.MeshBasicMaterial({color: 0x00a1cb});
+        cube = new THREE.Mesh( geometry, material );
+        scene.add(cube);
+    };
+    
+    
+    // set up the environment - 
+    // initiallize scene, camera, objects and renderer
+    let init = function() {
+        // create the scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xaabbcc);
+        
+        // create and locate the camera
+        camera = new THREE.PerspectiveCamera(75, 
+                        window.innerWidth / window.innerHeight, 
+                        1, 1000);
+        camera.position.z = 3;
+        
+        createCube();
+
+        let axes = new THREE.AxesHelper(2);
+        scene.add(axes);
+        
+        // create the renderer   
+        renderer = new THREE.WebGLRenderer();   
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        document.body.appendChild(renderer.domElement);
+        
+    };
+   
+    
+    // main animation loop - calls every 50-60 ms.
+    let mainLoop = function() {
+        cube.rotation.y += angInc;
+        renderer.render(scene, camera);
+        requestAnimationFrame(mainLoop);
+    };
+    
+    ///////////////////////////////////////////////
+    init();
+    mainLoop();
+</script>
