@@ -1,8 +1,7 @@
 
 <html>
     <head>
-        <title>1 - First Scene</title>
-        <link rel = "stylesheet" href = "../../three.js-master/test/benchmark/style.css">
+        <title>First Scene</title>
         <script src = "../../three.js-master/build/three.min.js"></script>    
     </head>
     <body>
@@ -17,10 +16,9 @@
     let init = function() {
         // create the scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xababab);
+        scene.background = new THREE.Color(0xababff);
         
-        // create an locate the camera
-        
+        // create and locate the camera
         camera = new THREE.PerspectiveCamera(30, 
                         window.innerWidth / window.innerHeight, 
                         1, 1000);
