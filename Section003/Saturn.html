@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saturn</title>
+    <script src="../three.js-master/build/three.min.js"></script>
+</head>
+
+<body>
+</body>
+
+</html>
+
+<script>
+    let scene, camera, renderer;
+    let cameraYDir = 1;
+    const cameraYInc = .01;
+    const cameraYMin = -1.0;
+    const cameraYMax = 1.0;
+
+    let createSaturn = function () {
+        const sphereRadius = 1;
+        const sphereSegments = 32;
+        const sphereGeometry = new THREE.SphereGeometry(sphereRadius, sphereSegments, sphereSegments, 0, Math.PI, Math.PI);
+        const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x955f2a });
+        let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        scene.add(sphere);
+
+        const ringColors = [0xfde7ac, 0xfbb66d, 0xeec693];
+        const ringSpacing = 0.4;
+        const ringWidth = 0.4 * ringSpacing;
+        let ringRadius = sphereRadius + ringSpacing - ringWidth;
+        for (let i = 0; i < 3; ++i) {
+            const geom = new THREE.TorusGeometry(ringRadius, ringWidth, 2, 32);
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: ringColors[i] });
+            const ring = new THREE.Mesh(geom, ringMaterial);
+            ring.rotation.x = Math.PI / 2;
+            ring.rotation.y = Math.PI / 8;
+            scene.add(ring);
+            ringRadius += ringSpacing;
+        }
+    };
+
+    // set up the environment - 
+    // initiallize scene, camera, objects and renderer
+    let init = function () {
+        // create the scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xaabbcc);
+
+        // create and locate the camera
+        camera = new THREE.PerspectiveCamera(75,
+            window.innerWidth / window.innerHeight,
+            1, 1000);
+        camera.position.z = 4;
+
+        createSaturn();
+
+        // create the renderer   
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        document.body.appendChild(renderer.domElement);
+    };
+
+    // main animation loop - calls every 50-60 ms.
+    let mainLoop = function () {
+        camera.position.y += cameraYInc * cameraYDir;
+        if (camera.position.y > cameraYMax) {
+            camera.position.y = cameraYMax;
+            cameraYDir = -1;
+        }
+        else if (camera.position.y < cameraYMin) {
+            camera.position.y = cameraYMin;
+            cameraYDir = 1;
+        }
+        renderer.render(scene, camera);
+        requestAnimationFrame(mainLoop);
+    };
+
+    ///////////////////////////////////////////////
+    init();
+    mainLoop();
+</script>
